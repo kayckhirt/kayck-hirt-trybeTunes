@@ -16,10 +16,10 @@ class App extends React.Component {
           <Route path="/search" component={ Search } />
           <Route path="/album/:id" component={ Album } />
           <Route path="/favorites" component={ Favorites } />
-          <Route path="/profile" component={ Profile } />
-          <Route path="/profile" component={ ProfileEdit } />
-          <Route path="/" component={ Login } />
-          <Route path="*" component={ NotFound } data-testid="page-not-found" />
+          <Route exact path="/profile" component={ Profile } />
+          <Route exact path="/profile/edit" component={ ProfileEdit } />
+          <Route exact path="/" component={ Login } />
+          <Route path="*" component={ NotFound } />
         </Switch>
       </BrowserRouter>
     );
