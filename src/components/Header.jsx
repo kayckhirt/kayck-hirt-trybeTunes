@@ -39,7 +39,7 @@ class Header extends React.Component {
         |
         <Link to="/profile" data-testid="link-to-profile"> Profile </Link>
         <div data-testid="header-user-name">
-          Eai, Dj
+          TryTunes
           {
             ' '
           }

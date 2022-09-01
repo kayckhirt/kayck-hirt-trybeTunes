@@ -1,8 +1,12 @@
 import React from 'react';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import Loading from './Loading';
 
 class search extends React.Component {
   state = {
     isDisabled: true,
+    artista: '',
+    loading: false,
   };
 
   HandleChange = ({ target }) => {
@@ -11,16 +15,30 @@ class search extends React.Component {
     if (value.length < minLength) {
       this.setState({
         isDisabled: true,
+        artista: value,
       });
     } else {
       this.setState({
         isDisabled: false,
+        artista: value,
       });
     }
   };
 
+  HandleClick = async () => {
+    this.setState({
+      artista: '',
+      loading: true,
+    });
+    const { artista } = this.state;
+    await searchAlbumsAPI(artista);
+    this.setState({
+      loading: false,
+    });
+  };
+
   render() {
-    const { isDisabled } = this.state;
+    const { isDisabled, artista, loading } = this.state;
     return (
       <div>
         <div data-testid="page-search">
@@ -29,14 +47,21 @@ class search extends React.Component {
               type="text"
               data-testid="search-artist-input"
               onChange={ this.HandleChange }
+              value={ artista }
             />
             <button
               type="button"
               data-testid="search-artist-button"
               disabled={ isDisabled }
+              onClick={ this.HandleClick }
             >
               Pesquisar
             </button>
+            Resultado de álbuns de:
+            <artista />
+            {
+              loading && <Loading />
+            }
           </form>
         </div>
       </div>
