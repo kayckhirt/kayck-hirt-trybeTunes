@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Loading from './Loading';
 
 class search extends React.Component {
   state = {
     isDisabled: true,
-    artista: '',
+    artist: '',
     loading: false,
+    artista: '',
+    aguarde: [],
   };
 
   HandleChange = ({ target }) => {
@@ -15,11 +18,13 @@ class search extends React.Component {
     if (value.length < minLength) {
       this.setState({
         isDisabled: true,
+        artist: value,
         artista: value,
       });
     } else {
       this.setState({
         isDisabled: false,
+        artist: value,
         artista: value,
       });
     }
@@ -27,18 +32,18 @@ class search extends React.Component {
 
   HandleClick = async () => {
     this.setState({
-      artista: '',
+      artist: '',
       loading: true,
     });
-    const { artista } = this.state;
-    await searchAlbumsAPI(artista);
+    const { artist } = this.state;
     this.setState({
       loading: false,
+      aguarde: await searchAlbumsAPI(artist),
     });
   };
 
   render() {
-    const { isDisabled, artista, loading } = this.state;
+    const { isDisabled, artist, loading, artista, aguarde } = this.state;
     return (
       <div>
         <div data-testid="page-search">
@@ -47,7 +52,7 @@ class search extends React.Component {
               type="text"
               data-testid="search-artist-input"
               onChange={ this.HandleChange }
-              value={ artista }
+              value={ artist }
             />
             <button
               type="button"
@@ -57,13 +62,29 @@ class search extends React.Component {
             >
               Pesquisar
             </button>
-            Resultado de álbuns de:
-            <artista />
+
             {
               loading && <Loading />
             }
           </form>
         </div>
+        {
+          `Resultado de álbuns de: ${artista}`
+        }
+        {
+          (aguarde.length < 1) ? <h3>Nenhum álbum foi encontrado</h3>
+            : aguarde.map((element) => (
+              <>
+                <Link
+                  to={ `/album/${element.collectionId}` }
+                  data-testid={ `link-to-album-${element.collectionId}` }
+                  key={ element.collectionId }
+                />
+                <p>{ element.collectionName }</p>
+                <img src={ element.artworkUrl100 } alt={ element.collectionName } />
+              </>
+            ))
+        }
       </div>
     );
   }

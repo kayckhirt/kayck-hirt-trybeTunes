@@ -39,9 +39,10 @@ class Login extends React.Component {
     const { isDisabled, loading, redirect } = this.state;
     return (
       <div data-testid="page-login">
+        Conecte-se na sua conta
         <form>
           <label htmlFor="inputName">
-            TrybeTunes
+            Login:
             <input
               type="text"
               data-testid="login-name-input"
