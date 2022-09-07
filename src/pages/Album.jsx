@@ -12,9 +12,7 @@ class Album extends React.Component {
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const musicas = await getMusics(id);
-    console.log(typeof musicas);
     const filtra = musicas.filter((musica) => musica.trackName);
-    console.log(musicas[0]);
     this.setState({
       dadosAlbum: filtra,
       dados: musicas[0],
