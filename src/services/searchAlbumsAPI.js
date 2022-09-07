@@ -6,6 +6,7 @@ const searchAlbumsAPI = async (artist) => {
   const APIResponse = await fetch(getAlbumsAPI);
 
   const { results } = await APIResponse.json();
+  console.log(`resultado albumapi${results}`);
 
   const response = results.map(
     ({

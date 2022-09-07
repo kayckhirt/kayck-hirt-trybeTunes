@@ -74,15 +74,14 @@ class search extends React.Component {
         {
           (aguarde.length < 1) ? <h3>Nenhum álbum foi encontrado</h3>
             : aguarde.map((element) => (
-              <>
-                <Link
-                  to={ `/album/${element.collectionId}` }
-                  data-testid={ `link-to-album-${element.collectionId}` }
-                  key={ element.collectionId }
-                />
+              <Link
+                to={ `/album/${element.collectionId}` }
+                data-testid={ `link-to-album-${element.collectionId}` }
+                key={ element.collectionId }
+              >
                 <p>{ element.collectionName }</p>
                 <img src={ element.artworkUrl100 } alt={ element.collectionName } />
-              </>
+              </Link>
             ))
         }
       </div>
